@@ -26,6 +26,7 @@ CREATE TABLE persoon(
 #Maken table account
 CREATE TABLE account ( 
   id INT AUTO_INCREMENT,
+  acount_id INT NOT NULL,
   email VARCHAR(75) UNIQUE,
   password varchar(15),
   lostpassword varchar(15),
