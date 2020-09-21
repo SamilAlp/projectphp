@@ -12,6 +12,8 @@ use projectphp;
 CREATE TABLE persoon(
    id INT AUTO_INCREMENT,
    account_id INT NOT NULL,
+#aanmaken admin     
+   admin varchar(15) NOT NULL UNIQUE,
    voornaam  varchar(15) NOT NULL UNIQUE,
    achtenaam  varchar(15) NOT NULL UNIQUE,
    tussenvoegsel  varchar(15) NOT NULL UNIQUE,
@@ -27,6 +29,8 @@ CREATE TABLE persoon(
 CREATE TABLE account ( 
   id INT AUTO_INCREMENT,
   acount_id INT NOT NULL,
+#aanmaken admin  
+  admin varchar(15) NOT NULL UNIQUE,
   email VARCHAR(75) UNIQUE,
   password varchar(15),
   lostpassword varchar(15),
