@@ -1,3 +1,13 @@
+<?php 
+
+include 'classdatabase.php';
+
+// instance van je database class
+$db = new database("localhost", "project1", "root", "", "utf8");
+$db->executeQuery()
+
+?>
+
 <html>
  <head>
 	 <title></title>
