@@ -34,11 +34,9 @@
  }
 
  public function executeQuery(){
- 	$sql = "SELECT * FROM account WHERE email=$email AND status=$status";
- 	$statement = $this->pdo->prepare($query);
- 	$statement
- 	$statement
- 	
+	$stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? AND status=?');
+	$stmt->execute([$email, $status]);
+	$user = $stmt->fetch();
  }
 } 
 ?>
