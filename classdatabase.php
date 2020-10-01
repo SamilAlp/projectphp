@@ -19,24 +19,40 @@
 
 	 try {
 	 	$dsn = "mysql:host=".$this->host.";database_name=".$this->database_name.";charset=".$this->charset;
+	 	echo "Database connectected";
 
-	 	$options = [
-		     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-		     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-		     PDO::ATTR_EMULATE_PREPARES   => false,
-	 	];
-
-	    $this->pdo = new PDO($dsn,$this->user, $this->password, $options);
-	 } catch (\PDOException $e) {
-	      throw new \PDOException($e->getMessage(), (int)$e->getCode());
+	    $this->pdo = new PDO($dsn,$this->user, $this->password);
+	 } catch (PDOException $e) {
+	      echo $e->getMessage();
+	      exit("error");
 	}
-  
  }
 
- public function executeQuery(){
-	$stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? AND status=?');//prepare query
-	$stmt->execute([$email, $status]);//execute
-	$user = $stmt->fetch();//returs user
+//
+ public function executeQuery($email, $password){
+
+ 	echo 'checkme'. $email . '' . $password;
+
+ 	$sql = "SELECT * FROM account WHERE email = ? AND password=?";
+	$stmt = $this->pdo->prepare($sql);
+	$stmt->execute([$email, $password]);
+	$user = $stmt->fetch();
+
+	try{
+		$pdo->beginTransaction();
+		$stmt = $this->$pdo->prepare("INSERT INTO account (name) VALUES (?)");
+		foreach (['id'] as $name){
+		$stmt->execute([$name]);
+		}
+		$stmt = $pdo->prepare("INSERT INTO persoon (name) VALUES (?)");
+		$pdo->commit();
+
+	}catch(Eception $e){
+		$pdo->rollback();
+    	throw $e;
+	}
  }
 } 
+
+
 ?>
