@@ -31,7 +31,7 @@
 //
  public function executeQuery($email, $password){
 
- 	echo 'checkme'. $email . '' . $password;
+ 	echo 'checkme'. $email . '' . $password . '' ;
 
  	$sql = "SELECT * FROM account WHERE email = ? AND password=?";
 	$stmt = $this->pdo->prepare($sql);
@@ -53,6 +53,6 @@
 	}
  }
 } 
-
+// vraaag aan emvrouw int / into not nullbeteknis
 
 ?>
