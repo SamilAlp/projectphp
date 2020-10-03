@@ -40,16 +40,17 @@
 
 	try{
 		$pdo->beginTransaction();
-		$stmt = $this->$pdo->prepare("INSERT INTO account (name) VALUES (?)");
+		$stmt = $this->$pdo->prepare("INSERT INTO 'account' (email, password) VALUES (?)");
 		foreach (['id'] as $name){
 		$stmt->execute([$name]);
 		}
-		$stmt = $pdo->prepare("INSERT INTO persoon (name) VALUES (?)");
+		$stmt = $pdo->prepare("INSERT INTO persoon 'name' (voornaam, achternaam, tussenvoegsel, email, username, password) VALUES (?)");
 		$pdo->commit();
 
 	}catch(Eception $e){
 		$pdo->rollback();
     	throw $e;
+    	echo "failed: ". $e->getMessage();
 	}
  }
 } 
