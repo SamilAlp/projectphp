@@ -1,6 +1,6 @@
 <?php
 	
-	class database{
+class database{
 		//properties = variabelen in een class
 	 private $host;
 	 private $database_name;
@@ -10,7 +10,7 @@
 	 private $pdo;  	 
  
  	// constructor
-  public function __construct($host, $database_name, $user, $password, $charset) {
+    public function __construct($host, $database_name, $user, $password, $charset) {
   	 $this->host = $host;//127.0.0.1";
   	 $this->database_name = $database_name;//"test";
   	 $this->user =$user;//"root";
@@ -25,35 +25,37 @@
 	 } catch (PDOException $e) {
 	      echo $e->getMessage();
 	      exit("error");
+	    }
+ 	} 
+
+
+    public function InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $username, $password){
+    	try{
+    		$this->pdo->beginTransaction();
+    		
+    		$sqlaccount = "INSERT INTO account(ID, email, password)        
+    		VALUES                            (NULL, '$email', $password);";
+
+    		$stmt = $this->pdo->prepare($sqlaccount);
+
+    		$stmt->execute();
+	
+    		$sqlpersoon = "INSERT INTO persoon 
+    			   (voornaam, achternaam, tussenvoegsel, username, password) 
+    		VALUES ($voornaam, $achternaam, $tussenvoegsel ,$username, $password)";
+
+    		$stmt = $this->pdo->prepare($sqlpersoon);
+
+			$stmt->execute();
+	
+			$this->pdo->commit();
+			echo "New row succecfully added";
+			
+    	}catch(Exception $e){
+			$this->pdo->rollback();
+	    	throw $e;
+	    	echo "failed: ". $e->getMessage();
+			}
 	}
- }
-
-//
- public function executeQuery($email, $password){
-
- 	echo 'checkme'. $email . '' . $password . '' ;
-
- 	$sql = "SELECT * FROM account WHERE email = ? AND password=?";
-	$stmt = $this->pdo->prepare($sql);
-	$stmt->execute([$email, $password]);
-	$user = $stmt->fetch();
-
-	try{
-		$pdo->beginTransaction();
-		$stmt = $this->$pdo->prepare("INSERT INTO 'account' (email, password) VALUES (?)");
-		foreach (['id'] as $name){
-		$stmt->execute([$name]);
-		}
-		$stmt = $pdo->prepare("INSERT INTO persoon 'name' (voornaam, achternaam, tussenvoegsel, email, username, password) VALUES (?)");
-		$pdo->commit();
-
-	}catch(Eception $e){
-		$pdo->rollback();
-    	throw $e;
-    	echo "failed: ". $e->getMessage();
-	}
- }
-} 
-// vraaag aan emvrouw int / into not nullbeteknis
-
+}	
 ?>

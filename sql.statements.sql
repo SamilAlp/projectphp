@@ -6,17 +6,29 @@ create database projectphp;
 #Gebruik projectphp
 use projectphp;
 
+CREATE TABLE usertype (
+	id INT NOT NULL AUTO_increment,
+    type varchar(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id)
+);
+
+
 #Maken table account
 CREATE TABLE account ( 
   id INT NOT NULL AUTO_INCREMENT,
-  acount_id INT NOT NULL,
+  account_id INT NOT NULL,
+  usertype_id INT NOT NULL,
+  username 	VARCHAR(255),
   email VARCHAR(75) UNIQUE,
   password varchar(15),
   lostpassword varchar(15),
+  FOREIGN KEY (usertype_id) REFERENCES usertype(id),
   PRIMARY KEY(id)
-);
+); 
 
- INSERT INTO account (email, wachtwoord, wachtwoordvergeten)
+ INSERT INTO account (email, password)
  values('samilalparsan@hotmail.com', 'Alparslan1', NULL);
 
 

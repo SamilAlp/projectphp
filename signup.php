@@ -2,19 +2,39 @@
 
 include 'classdatabase.php';
 
+
+
+
+// instance van je database class
+$pdo = new database("localhost", "projectphp", "root", "", "utf8");
+echo $email . '' . $password;
+$pdo->InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $username, $password);
+
+$fieldnames = array("email", "voornaam", "achternaam","username", "password");
+
+$error = false;
+
+  foreach ($fieldnames as $fieldname) {
+    if (empty($_POST[$fieldname])) {
+       $error = true;
+    }
+    
+  }
+   if (!$error) {
     $voornaam = $_POST['voornaam'];
-    $achternaam = $_POST['firstname'];
+    $achternaam = $_POST['achternaam'];
     $tussenvoegsel = $_POST['tussenvoegsel'];
     $email = $_POST['email'];
     $geboortedatum =$_POST['geboortedatum'];
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    $pdo = new database("localhost", "projectphp", "root", "", "utf8");
+   }
 
-// instance van je database class
-$pdo = new database("localhost", "projectphp", "root", "", "utf8");
-echo $email . '' . $password;
-$pdo->executeQuery($email, $password);
+  else 
+    echo "all fieds required";
+
 ?>
 
 <html>
@@ -39,9 +59,9 @@ $pdo->executeQuery($email, $password);
   		   <input type="email" id="fname" name="email"> <span class="col-xs-3">(Verplicht invullen)<span>
         <br><br>
 
-        <!-- <label for="fname">Geboortedatum:</label>
-         <input type="text" id="fname" name="fname" placeholder="00/00/0000" > <span class="col-xs-3">(Verplicht invullen) <span>
-        <br><br> -->
+        <label for="fname">Geboortedatum:</label>
+         <input type="text" id="fname" name="geboortedatum" placeholder="00/00/0000" > <span class="col-xs-3">(Verplicht invullen) <span>
+        <br><br>
 
   		  <label for="fname">Gebruiksnaam:</label>
   		   <input type="text" id="fname" name="username"> <span class="col-xs-3">(Verplicht invullen)<span>
@@ -52,7 +72,7 @@ $pdo->executeQuery($email, $password);
         <br><br>
 
   		  <label for="fname">Herhaal wachtwoord:</label> 
-  		   <input type="password" id="fname" name="fname"> <span class="col-xs-3">(Verplicht invullen)<span>
+  		   <input type="password" id="fname" name="repeatpassword"> <span class="col-xs-3">(Verplicht invullen)<span>
         <br><br>  	 
 
         <input type="submit" value="Word gebruiker"> 
