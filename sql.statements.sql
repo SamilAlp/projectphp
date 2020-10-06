@@ -37,7 +37,7 @@ CREATE TABLE persoon(
    id INT NOT NULL AUTO_INCREMENT,
    account_id INT NOT NULL,
    voornaam  varchar(15) NOT NULL,
-   achtenaam  varchar(15) NOT NULL,
+   achternaam  varchar(15) NOT NULL,
    tussenvoegsel  varchar(15),
    geboortedatum date NOT NULL,
    gebruiksnaam  varchar(15) NOT NULL UNIQUE,

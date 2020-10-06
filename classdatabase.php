@@ -32,28 +32,25 @@ class database{
     public function InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $username, $password){
     	try{
     		$this->pdo->beginTransaction();
-    		
-    		$sqlaccount = "INSERT INTO account(ID, email, password)        
-    		VALUES                            (NULL, '$email', $password);";
+
+    	    $sqlaccount = "INSERT INTO account() VALUES ('username, email, password')";
 
     		$stmt = $this->pdo->prepare($sqlaccount);
+    		$stmt->execute(['email' => $email, 'status' => $status]);
+    		$account = $stmt->fetch();
 
-    		$stmt->execute();
-	
-    		$sqlpersoon = "INSERT INTO persoon 
-    			   (voornaam, achternaam, tussenvoegsel, username, password) 
-    		VALUES ($voornaam, $achternaam, $tussenvoegsel ,$username, $password)";
+
+    		$sqlpersoon = "INSERT INTO persoon() VALUES ('voornaam, achternaam, tussenvoegsel, geboortedatum, gebruiksnaam')";	
 
     		$stmt = $this->pdo->prepare($sqlpersoon);
+			$stmt->execute(['voonaam' => $voornaam, 'achternaam' => $achternaam, 'tussenvoegsel' => $tussenvoegsel, 'geboortedatum' => $geboortedatum, 'gebruiksnaam' => $gebruiksnaam]);
+			$persoon = $stmt->fetch();
 
-			$stmt->execute();
-	
 			$this->pdo->commit();
 			echo "New row succecfully added";
 			
     	}catch(Exception $e){
 			$this->pdo->rollback();
-	    	throw $e;
 	    	echo "failed: ". $e->getMessage();
 			}
 	}
