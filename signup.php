@@ -2,13 +2,8 @@
 
 include 'classdatabase.php';
 
-
-
-
+if(isset($_POST['submit'])){
 // instance van je database class
-$pdo = new database("localhost", "projectphp", "root", "", "utf8");
-echo $email . '' . $password;
-$pdo->InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $username, $password);
 
 $fieldnames = array("email", "voornaam", "achternaam","username", "password");
 
@@ -18,6 +13,11 @@ $error = false;
     if (empty($_POST[$fieldname])) {
        $error = true;
     }
+
+  //   if(!empty($_POST[$fieldnames])){
+  //   echo "<br> Plz fill the required fields in!";
+  // }
+
     
   }
    if (!$error) {
@@ -30,10 +30,11 @@ $error = false;
     $password = $_POST['password'];
 
     $pdo = new database("localhost", "projectphp", "root", "", "utf8");
-   }
+    $pdo->InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $geboortedatum, $username, $password);
+    echo $email . '' . $password;
 
-  else 
-    echo "all fieds required";
+   }
+ }
 
 ?>
 
@@ -42,7 +43,7 @@ $error = false;
 	 <title></title>
  </head>
    <body>
-	    <form action="signup.php" method="post">
+	    <form method="post">
   		  <label for="fname">Voor naam: </label> 
   	     <input type="text" id="fname" name="voornaam"> <span class="col-xs-3">(Verplicht invullen)<span>
         <br><br> 
@@ -75,7 +76,7 @@ $error = false;
   		   <input type="password" id="fname" name="repeatpassword"> <span class="col-xs-3">(Verplicht invullen)<span>
         <br><br>  	 
 
-        <input type="submit" value="Word gebruiker"> 
+        <input type="submit" name ='submit'value="Word gebruiker"> 
         <input type="submit" value="Ik heb al een account Login!">  
   	  </form>
     </body>

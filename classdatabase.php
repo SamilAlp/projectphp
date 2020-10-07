@@ -18,7 +18,7 @@ class database{
   	 $this->charset = $charset;//"utf8mb4";
 
 	 try {
-	 	$dsn = "mysql:host=".$this->host.";database_name=".$this->database_name.";charset=".$this->charset;
+	 	$dsn = "mysql:host=$this->host;database_name=$this->database_name;charset=$this->charset";
 	 	echo "Database connectected";
 
 	    $this->pdo = new PDO($dsn,$this->user, $this->password);
@@ -29,25 +29,25 @@ class database{
  	} 
 
 
-    public function InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $username, $password){
+    public function InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $geboortedatum,         $username, $password){
     	try{
     		$this->pdo->beginTransaction();
 
-    	    $sqlaccount = "INSERT INTO account() VALUES ('username, email, password')";
+    	    $sqlaccount = "INSERT INTO account(email, username, password) VALUES (':email, :username, :password')";
 
     		$stmt = $this->pdo->prepare($sqlaccount);
-    		$stmt->execute(['email' => $email, 'status' => $status]);
-    		$account = $stmt->fetch();
 
+    		$stmt->execute(['email' => $email, 'username' => $username, 'password' => $password]);
+    	
 
-    		$sqlpersoon = "INSERT INTO persoon() VALUES ('voornaam, achternaam, tussenvoegsel, geboortedatum, gebruiksnaam')";	
+    		$sqlpersoon = "INSERT INTO persoon(voornaam, achternaam, tussenvoegsel, geboortedatum, gebruiksnaam) VALUES (':voornaam, :achternaam, :tussenvoegsel, :geboortedatum, :gebruiksnaam')";	
 
     		$stmt = $this->pdo->prepare($sqlpersoon);
-			$stmt->execute(['voonaam' => $voornaam, 'achternaam' => $achternaam, 'tussenvoegsel' => $tussenvoegsel, 'geboortedatum' => $geboortedatum, 'gebruiksnaam' => $gebruiksnaam]);
-			$persoon = $stmt->fetch();
 
+			$stmt->execute(['voonaam' => $voornaam, 'achternaam' => $achternaam, 'tussenvoegsel' =>      $tussenvoegsel, 'geboortedatum' => $geboortedatum, 'gebruiksnaam' => $username]);
+			
 			$this->pdo->commit();
-			echo "New row succecfully added";
+			echo "Commit succesfull";
 			
     	}catch(Exception $e){
 			$this->pdo->rollback();
