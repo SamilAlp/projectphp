@@ -25,34 +25,35 @@ class database{
 	 } catch (PDOException $e) {
 	      echo $e->getMessage();
 	      exit("error");
-	    }
+	  } 
  	} 
 
-
-    public function InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $geboortedatum,         $username, $password){
+    public function InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $geboortedatum, $username, $password){
     	try{
     		$this->pdo->beginTransaction();
 
-    	    $sqlaccount = "INSERT INTO account(email, username, password) VALUES (':email, :username, :password')";
+    		$sqlusertype = "select id from usertype WHERE type 'admin'";
 
-    		$stmt = $this->pdo->prepare($sqlaccount);
+			$sql2 = "INSERT INTO account(id, usertype_id, username, email, password)
+			                VALUES(NULL, 2, :username, :email, :password);";
 
-    		$stmt->execute(['email' => $email, 'username' => $username, 'password' => $password]);
-    	
-
-    		$sqlpersoon = "INSERT INTO persoon(voornaam, achternaam, tussenvoegsel, geboortedatum, gebruiksnaam) VALUES (':voornaam, :achternaam, :tussenvoegsel, :geboortedatum, :gebruiksnaam')";	
+    		$stmt = $this->pdo->prepare($sql2);
+    		$stmt->execute(['username' => $username, 'email' => $email, 'password' => $password]);
+            
+            $id = $this->pdo->lastInsertId();
+    		$sqlpersoon = "INSERT INTO persoon(id, voornaam, achternaam, tussenvoegsel, geboortedatum, account_id) VALUES (NULL, :voornaam, :achternaam, :tussenvoegsel, :geboortedatum, :account_id);";	
 
     		$stmt = $this->pdo->prepare($sqlpersoon);
-
-			$stmt->execute(['voonaam' => $voornaam, 'achternaam' => $achternaam, 'tussenvoegsel' =>      $tussenvoegsel, 'geboortedatum' => $geboortedatum, 'gebruiksnaam' => $username]);
+			$stmt->execute(['voornaam' => $voornaam, 'achternaam' => $achternaam, 'tussenvoegsel' => $tussenvoegsel,     'geboortedatum' => $geboortedatum, 'account_id' => $id]);
 			
 			$this->pdo->commit();
-			echo "Commit succesfull";
+			echo " <br> Commit succesfull";
 			
-    	}catch(Exception $e){
+    	}catch(PDOException $e){
 			$this->pdo->rollback();
 	    	echo "failed: ". $e->getMessage();
 			}
 	}
 }	
 ?>
+

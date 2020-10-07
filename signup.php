@@ -5,7 +5,7 @@ include 'classdatabase.php';
 if(isset($_POST['submit'])){
 // instance van je database class
 
-$fieldnames = array("email", "voornaam", "achternaam","username", "password");
+$fieldnames = array("voornaam", "achternaam","email", "geboortedatum", "username", "password");
 
 $error = false;
 
@@ -17,7 +17,6 @@ $error = false;
   //   if(!empty($_POST[$fieldnames])){
   //   echo "<br> Plz fill the required fields in!";
   // }
-
     
   }
    if (!$error) {
@@ -31,8 +30,9 @@ $error = false;
 
     $pdo = new database("localhost", "projectphp", "root", "", "utf8");
     $pdo->InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $geboortedatum, $username, $password);
-    echo $email . '' . $password;
-
+    echo '<hr>';
+    echo "voornaam = $voornaam | tussenvoegsel = $tussenvoegsel | achternaam = $achternaam | email =  $email | geboortedatum =  $geboortedatum | username =  $username | password = $password";
+    echo '<hr>';
    }
  }
 
@@ -75,9 +75,8 @@ $error = false;
   		  <label for="fname">Herhaal wachtwoord:</label> 
   		   <input type="password" id="fname" name="repeatpassword"> <span class="col-xs-3">(Verplicht invullen)<span>
         <br><br>  	 
-
         <input type="submit" name ='submit'value="Word gebruiker"> 
-        <input type="submit" value="Ik heb al een account Login!">  
   	  </form>
+       <a href="./index.php"> <input type="submit" value="Ik heb al een account Login!">
     </body>
 </html>
