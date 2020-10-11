@@ -28,10 +28,8 @@ $error = false;
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $pdo = new database("localhost", "projectphp", "root", "", "utf8");
+    $pdo = new database("localhost", "projectphp", "root", "", "utf8mb4");
     $pdo->InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $geboortedatum, $username, $password);
-    echo '<hr>';
-    echo "voornaam = $voornaam | tussenvoegsel = $tussenvoegsel | achternaam = $achternaam | email =  $email | geboortedatum =  $geboortedatum | username =  $username | password = $password";
     echo '<hr>';
    }
  }
@@ -40,12 +38,15 @@ $error = false;
 
 <html>
  <head>
-	 <title></title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title></title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="main.css">
  </head>
    <body>
 	    <form method="post">
   		  <label for="fname">Voor naam: </label> 
-  	     <input type="text" id="fname" name="voornaam"> <span class="col-xs-3">(Verplicht invullen)<span>
+  	     <input type="text" id="fname" name="voornaam" required> <span class="col-xs-3">(Verplicht invullen)<span>
         <br><br> 
 
   	 	  <label for="lname">Achter naam:</label>
@@ -75,8 +76,9 @@ $error = false;
   		  <label for="fname">Herhaal wachtwoord:</label> 
   		   <input type="password" id="fname" name="repeatpassword"> <span class="col-xs-3">(Verplicht invullen)<span>
         <br><br>  	 
-        <input type="submit" name ='submit'value="Word gebruiker"> 
   	  </form>
-       <a href="./index.php"> <input type="submit" value="Ik heb al een account Login!">
+       <a href="" class="btn btn-primary" required >Word gebruiker</a>
+       <a href="./index.php" class="btn btn-primary">Login</a>
+       <!-- <input type="submit" value="Ik heb al een account Login!"> -->
     </body>
 </html>
