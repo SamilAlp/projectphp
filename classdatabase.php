@@ -73,13 +73,14 @@ class database{
             echo "password_hash: ".md5($password)."<br>";
             echo "<hr>";
 
-			if (!empty($username) || !empty($password)) {
-			  $stmt = $this->pdo->prepare("SELECT * FROM account where username = ? AND password = ?");
-			  $stmt->BindParam(1, $username);
+			  $stmt = $this->pdo->prepare($sql = "SELECT * FROM account where username = :username AND where password = :password");
+			  $stmt->BindParam('username',$username);
 			  $password_md5=md5($password);
-              $stmt->BindParam(2, $password_md5);
+              $stmt->BindParam('password', $password_md5);
 			  $stmt->execute();
 			  $rowCount= $stmt->fetch(PDO::FETCH_ASSOC);
+			  print_r($rowCount['username']);
+			  session_start();
 
 			  if ($stmt->rowCount() == 1) {
 			  	$_SESSION['username'] = $rowCount['username'];
@@ -87,12 +88,8 @@ class database{
 			  	header("location:login_success.php");
 			  }
 			  else{
-			  	echo "Incorrect username or passoword!";
+			  	echo "Incorrect password or username!";
 			  }
-
-			}else{
-				echo "Please enter username and password";
-			 }
 
 		}catch(PDOException $e){
 			$this->pdo->rollback();
@@ -102,11 +99,13 @@ class database{
 
 	public function loginadmin($username, $password){
 		try{
-			  $stmt = $this->pdo->prepare("SELECT * FROM admintable where username = ? AND password = ?");
+			  $stmt = $this->pdo->prepare("SELECT * FROM admintable where username = :username AND password = :password");
 			  $stmt->BindParam(1, $username);
               $stmt->BindParam(2, $password);
 			  $stmt->execute();
 			  $rowCount= $stmt->fetch(PDO::FETCH_ASSOC);
+			  print_r($rowCount['username']);
+			  session_start();
 
 				if (!count($rowCount) < 0) {
 			  	echo "Login succesfull";

@@ -4,12 +4,29 @@ include "classdatabase.php";
 session_start();
 
 if(isset($_POST['submit'])){
-	$username = $_POST['username'];
+// instance van je database class
+
+$fieldnames = array("username", "password");
+
+$error = false;
+
+  foreach ($fieldnames as $fieldname) {
+    if (isset($_POST[$fieldname]) || empty($_POST[$fieldname])) {
+       $error = true;
+    }
+  //   if(!empty($_POST[$fieldnames])){
+  //   echo "<br> Plz fill the required fields in!";
+  // }
+  }
+   if (!$error) {
+    $username = $_POST['username'];
     $password = $_POST['password'];
 
     $pdo = new database("localhost", "projectphp", "root", "", "utf8mb4");
-    $pdo->login($username, $password);
-}
+    $pdo->InsertTabellen($username, $password);
+    echo '<hr>';
+   }
+ }
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +43,8 @@ if(isset($_POST['submit'])){
 	      <div class="card-body">
 	        <h5 class="card-title">Welkom 
 	        <?php 
-	        if (isset($_SESSION['username'])) {
-	        	echo $_SESSION['username'];
+	        if (isset($_SESSION)) {
+	        	print_r($_SESSION);
 	        }
 	        ?> 
 	        </h5>
