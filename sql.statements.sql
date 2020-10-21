@@ -39,7 +39,5 @@ CREATE TABLE persoon(
    PRIMARY KEY (id)
 );
 
- INSERT INTO persoon (voornaam, achternaam, tussenvoegsel, geboortedatum, gebruiksnaam)
- values('Samil', 'Alparslan', NULL, date(12-12-2204), 'admin');
 
 

@@ -1,10 +1,50 @@
 <?php
-	
-	session_start();
-	if (isset($_SESSION["username"])) 
-	{
-		echo '<h3>Login success, welcome - ' . $_SESSION["username"]. '</hr>';
-	}
+include "classdatabase.php";
 
+session_start();
 
+if(isset($_POST['submit'])){
+	$username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $pdo = new database("localhost", "projectphp", "root", "", "utf8mb4");
+    $pdo->login($username, $password);
+}
 ?>
+
+<!DOCTYPE html>
+<html>
+	 <head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="style.css">
+ <body background="images/xy1.jpg" style="  background-repeat: no-repeat;background-attachment: fixed;background-size: cover; overflow-x: hidden;">
+	<div class="row">
+	  <div class="col-sm-3">
+	    <div class="card">
+	      <div class="card-body">
+	        <h5 class="card-title">Welkom 
+	        <?php 
+	        if (isset($_SESSION['username'])) {
+	        	echo $_SESSION['username'];
+	        }
+	        ?> 
+	        </h5>
+	        <p class="card-text">Welkom on the site , i like ya cut g</p>
+	        <a href="#" class="btn btn-primary">Coming soon..</a>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-sm-2">
+	    <div class="card">
+	      <div class="card-body">
+	        <h5 class="card-title">Logout</h5>
+	        <p class="card-text">And you let her go...</p>
+	        <a href="index.php" class="btn btn-primary">Logout</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+ </body>
+</html>
