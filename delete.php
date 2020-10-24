@@ -8,5 +8,6 @@ $id = $_GET['id'];
     //echo "Calling login<br>";
     $pdo->deleteuser($username, $password);
     echo '<hr>';
+header('location:display.php');
 
 ?>

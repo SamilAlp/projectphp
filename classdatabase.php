@@ -173,7 +173,7 @@ class database{
 		public function updateuser($username, $password){
 		try{
 			$this->pdo->beginTransaction();
-			$stmt = $this->pdo->prepare("update crudtable set id=$id, usrename=$username, password=$password where id=$id ");
+			$stmt = $this->pdo->prepare("update crudtable set id=$id, username='$username', password='$password' where id=$id ");
 
 		}catch(PDOException $e){
 			$this->pdo->rollback();
