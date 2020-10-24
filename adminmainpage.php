@@ -47,12 +47,12 @@ $error = false;
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</head>
 <body>
-	Welkom 
+	 Welkom	
 	<?php 
 	if (isset($_SESSION)) {
-	    print_r($_SESSION);
+	$username = $_SESSION['username'];
+	echo $username;
 	}
-	?> on the admin page u can see private shit here..
-
+	?> the admin page u can see private things 
 </body>
 </html>

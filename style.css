@@ -7,3 +7,12 @@
 	border-width: medium medium;
 	border-color: #FFF;
 }
+
+.row{
+	
+}
+
+.col-sm-2{
+	position: absolute;
+	margin-top: 20%;
+}

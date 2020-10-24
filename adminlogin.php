@@ -1,8 +1,8 @@
 <?php 
-include 'classdatabase.php';
 session_start();
+include 'classdatabase.php';
 
-if(isset($_GET['submit'])){
+if(isset($_POST['submit'])){
 
     
 $fieldnames = array("username", "password");
@@ -50,7 +50,7 @@ $error = false;
    	 	<div class="container row d-flex flex-row justify-content-center mb-5">
    	 		<div>
    	 			<div class="admin-form shadow p-2">
-   	 	   			<form style="width: 410px" action="classdatabase.php" method="GET">
+   	 	   			<form style="width: 410px" action="" method="POST">
    	 	   				<div class="form-group">
    	 	   					<label>Email ID</label>
    	 	   					<input type="text" name="username" value="" class="form-control" autocomplete="off">
@@ -59,7 +59,7 @@ $error = false;
    	 	   					<label>Password</label>
    	 	   					<input type="password" name="password" value="" class="form-control" autocomplete="off">
    	 	   				</div>
-   	 	   				<input type="submit" class="btn btn-success"  value="Submit" name="sumbit">
+   	 	   				<input type="submit" class="btn btn-success"  value="submit" name="sumbit">
    	 	   			</form>
    	 	   		</div>	
    	 		</div>

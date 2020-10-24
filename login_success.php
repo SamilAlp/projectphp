@@ -44,7 +44,8 @@ $error = false;
 	        <h5 class="card-title">Welkom 
 	        <?php 
 	        if (isset($_SESSION)) {
-	        	print_r($_SESSION);
+	        	$username = $_SESSION['username'];
+	        	echo $username;
 	        }
 	        ?> 
 	        </h5>
@@ -53,6 +54,8 @@ $error = false;
 	      </div>
 	    </div>
 	  </div>
+
+
 	  <div class="col-sm-2">
 	    <div class="card">
 	      <div class="card-body">

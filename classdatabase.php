@@ -38,15 +38,18 @@ class database{
 			                VALUES(NULL, 2, :username, :email, :password);";
 
 			$passwordhash = password_hash($password, PASSWORD_DEFAULT);
-			$passwordhash = md5($password);
+			// $passwordhash = md5($password);
 
     		$stmt = $this->pdo->prepare($sql2);
+    		
     		$stmt->execute(['username' => $username, 'email' => $email, 'password' => $passwordhash]);
             
             $id = $this->pdo->lastInsertId();
+    		
     		$sqlpersoon = "INSERT INTO persoon(id, voornaam, achternaam, tussenvoegsel, geboortedatum, account_id) VALUES (NULL, :voornaam, :achternaam, :tussenvoegsel, :geboortedatum, :account_id);";	
 
     		$stmt = $this->pdo->prepare($sqlpersoon);
+			
 			$stmt->execute(['voornaam' => $voornaam, 'achternaam' => $achternaam, 'tussenvoegsel' => $tussenvoegsel,     'geboortedatum' => $geboortedatum, 'account_id' => $id]);
 			
 			$this->pdo->commit();
@@ -70,26 +73,38 @@ class database{
             //echo "Inside Login#1<br>";
 			echo "username: $username and password: $password<br>";
             echo "<hr>";
-            echo "password_hash: ".md5($password)."<br>";
+            // echo "password_hash: ".md5($password)."<br>";
             echo "<hr>";
 
-			  $stmt = $this->pdo->prepare($sql = "SELECT * FROM account where username = :username AND where password = :password");
+			  $stmt = $this->pdo->prepare("SELECT * FROM account where username = :username");
 			  $stmt->BindParam('username',$username);
-			  $password_md5=md5($password);
-              $stmt->BindParam('password', $password_md5);
 			  $stmt->execute();
-			  $rowCount= $stmt->fetch(PDO::FETCH_ASSOC);
+			  $rowCount = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			  print_r($rowCount);
 			  print_r($rowCount['username']);
 			  session_start();
 
-			  if ($stmt->rowCount() == 1) {
-			  	$_SESSION['username'] = $rowCount['username'];
-			  	echo $rowCount['username'];
-			  	header("location:login_success.php");
+			  if (count($rowCount) > 0) {
+			  		$passwordhash = password_verify($password, $rowCount['password']);
+			  		echo "pass word check <br>";
+			  		print_r($passwordhash);
+			  	if ($passwordhash) {
+			  		$_SESSION['username'] = $rowCount['username'];
+			  		echo $rowCount['username'];
+
+			  		if ($rowCount['usertype_id'] == 2) {
+			  			// header("Location: login_success.php");
+			  		}
+			  		else if ($rowCount['usertype_id'] == 1) {
+			  			// header("Location: login_success.php");
+			  		}
+			  		header("Location: login_success.php");
+			  	}else{
+			  		echo "Incorrect password or username!";
+			  	}
 			  }
-			  else{
-			  	echo "Incorrect password or username!";
-			  }
+
 
 		}catch(PDOException $e){
 			$this->pdo->rollback();
@@ -99,23 +114,66 @@ class database{
 
 	public function loginadmin($username, $password){
 		try{
-			  $stmt = $this->pdo->prepare("SELECT * FROM admintable where username = :username AND password = :password");
-			  $stmt->BindParam(1, $username);
-              $stmt->BindParam(2, $password);
-			  $stmt->execute();
-			  $rowCount= $stmt->fetch(PDO::FETCH_ASSOC);
-			  print_r($rowCount['username']);
-			  session_start();
+			 $stmt = $this->pdo->prepare("SELECT * FROM admintable where username = :username AND password = :password");
+			 $stmt->BindParam(1, $username);
+             $stmt->BindParam(2, $password);
+			 $stmt->execute();
+			 $rowCount= $stmt->fetch(PDO::FETCH_ASSOC);
+			 print_r($rowCount['username']);
+			 session_start();
 
 				if (!count($rowCount) < 0) {
 			  	echo "Login succesfull";
 			  	$_SESSION['username'] = $rowCount['username'];
+			  	
 			  	header("Location: adminmainpage.php");
 			  }
 			  else{
 			  	echo "Incorrect username or passoword!";
 			  	header("Location: adminlogin.php");
 			  }
+
+		}catch(PDOException $e){
+			$this->pdo->rollback();
+	    	echo "failed: ". $e->getMessage();
+		}
+	}
+
+	public function overviewadmin($username, $password){
+		try{
+			$this->pdo->beginTransaction();
+			$sqlpersoon = "INSERT INTO crudtable(id, username, password) VALUES (NULL, :username, :password);";
+
+		}catch(PDOException $e){
+			$this->pdo->rollback();
+	    	echo "failed: ". $e->getMessage();
+		}
+	}
+
+	public function selectcrudtable($username, $password){
+		try{
+			$this->pdo->beginTransaction();
+			$stmt = $this->pdo->prepare("SELECT * from crudtable");
+		}catch(PDOException $e){
+			$this->pdo->rollback();
+	    	echo "failed: ". $e->getMessage();
+		}
+	}
+
+		public function deleteuser($username, $password){
+		try{
+			$this->pdo->beginTransaction();
+			$stmt = $this->pdo->prepare("DELETE FROM 'crudtable' WHERE id = $id");
+
+		}catch(PDOException $e){
+			$this->pdo->rollback();
+	    	echo "failed: ". $e->getMessage();
+		}
+	}
+		public function updateuser($username, $password){
+		try{
+			$this->pdo->beginTransaction();
+			$stmt = $this->pdo->prepare("update crudtable set id=$id, usrename=$username, password=$password where id=$id ");
 
 		}catch(PDOException $e){
 			$this->pdo->rollback();

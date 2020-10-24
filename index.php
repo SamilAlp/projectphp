@@ -42,7 +42,7 @@ if(isset($_POST['submit'])){
         <div class="link-box">
           <a href="./lostpw.php" class="btn btn-primary">Wachtwoord vergeten?</a>
           <a href="./signup.php" class="btn btn-primary">Registreer hier</a>
-          <a href="./adminlogin.php" class="btn btn-primary">Admin login</a>
+          <a href="./adminlogin.php" class="btn btn-primary">Medewerkers</a>
         </div>
     </body>
 </html>

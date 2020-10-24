@@ -12,7 +12,7 @@ $fieldnames = array("voornaam", "achternaam","email", "geboortedatum", "username
 $error = false;
 
   foreach ($fieldnames as $fieldname) {
-    if (isset($_POST[$fieldname]) || empty($_POST[$fieldname])) {
+    if (empty($_POST[$fieldname])) {
        $error = true;
     }
 
@@ -33,6 +33,8 @@ $error = false;
     $pdo = new database("localhost", "projectphp", "root", "", "utf8mb4");
     $pdo->InsertTabellen($email, $voornaam, $achternaam, $tussenvoegsel, $geboortedatum, $username, $password);
     echo '<hr>';
+   }else{
+    echo "overgeslagen";
    }
  }
 
@@ -46,7 +48,7 @@ $error = false;
         <link rel="stylesheet" type="text/css" href="main.css">
  </head>
    <body>
-      <form method="post">
+      <form action="" method="post">
         <label for="fname">Voor naam: </label> 
          <input type="text" id="fname" name="voornaam" required> <span class="col-xs-3">(Verplicht invullen)<span>
         <br><br> 
@@ -77,9 +79,10 @@ $error = false;
 
         <label for="fname">Herhaal wachtwoord:</label> 
          <input type="password" id="fname" name="repeatpassword"> <span class="col-xs-3">(Verplicht invullen)<span>
-        <br><br>     
+        <br><br>   
+        <input type="submit" name="submit" class="btn btn-primary" value="Word gebruiker" required>  
       </form>
-       <input type="submit" name="submit" class="btn btn-primary" value="Word gebruiker" required>
+       
        <a href="./index.php" class="btn btn-primary">Login</a>
        <!-- <input type="submit" value="Ik heb al een account Login!"> -->
     </body>
