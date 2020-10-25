@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){
 				<label> Password: </label>
 				<input type="text" name="password" class="form-control" placeholder="Password"> <br>
 
-				<button class="btn btn-success" type="sumbit" name="sumbit"> sumbit </button>
+				<button class="btn btn-success" type="sumbit" name="submit"> sumbit </button>
 			</div>
 		</form>
 	</div>

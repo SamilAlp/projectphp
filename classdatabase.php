@@ -112,20 +112,48 @@ class database{
 		}
 	}
 
+	// public function loginadmin($username, $password){
+	// 	try{
+	// 		 $stmt = $this->pdo->prepare("SELECT * FROM admintable where username = :username AND password = :password");
+	// 		 $stmt->BindParam(1, $username);
+ //             $stmt->BindParam(2, $password);
+	// 		 $stmt->execute();
+	// 		 $rowCount= $stmt->fetch(PDO::FETCH_ASSOC);
+	// 		 print_r($rowCount['username']);
+	// 		 session_start();
+
+	// 			if (!count($rowCount) < 0) {
+	// 		  	echo "Login succesfull";
+	// 		  	$_SESSION['username'] = $rowCount['username'];
+			  	
+	// 		  	header("Location: adminmainpage.php");
+	// 		  }
+	// 		  else{
+	// 		  	echo "Incorrect username or passoword!";
+	// 		  	header("Location: adminlogin.php");
+	// 		  }
+
+	// 	}catch(PDOException $e){
+	// 		$this->pdo->rollback();
+	//     	echo "failed: ". $e->getMessage();
+	// 	}
+	// }
+
+	
 	public function loginadmin($username, $password){
 		try{
-			 $stmt = $this->pdo->prepare("SELECT * FROM admintable where username = :username AND password = :password");
-			 $stmt->BindParam(1, $username);
-             $stmt->BindParam(2, $password);
+			 $stmt = $this->pdo->prepare("SELECT * FROM admintable where username = :username AND password = PASSWORD(:password)");
+			 $stmt->BindParam('username', $username);
+             $stmt->BindParam('password', $password);
 			 $stmt->execute();
 			 $rowCount= $stmt->fetch(PDO::FETCH_ASSOC);
-			 print_r($rowCount['username']);
+			 print_r($rowCount);
+			 //die("count: ".count($rowCount));
 			 session_start();
 
-				if (!count($rowCount) < 0) {
+			    if (count($rowCount) > 0) {
 			  	echo "Login succesfull";
 			  	$_SESSION['username'] = $rowCount['username'];
-			  	
 			  	header("Location: adminmainpage.php");
 			  }
 			  else{
@@ -134,7 +162,7 @@ class database{
 			  }
 
 		}catch(PDOException $e){
-			$this->pdo->rollback();
+			//$this->pdo->rollback();
 	    	echo "failed: ". $e->getMessage();
 		}
 	}

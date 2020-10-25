@@ -59,7 +59,7 @@ $error = false;
    	 	   					<label>Password</label>
    	 	   					<input type="password" name="password" value="" class="form-control" autocomplete="off">
    	 	   				</div>
-   	 	   				<input type="submit" class="btn btn-success"  value="submit" name="sumbit">
+   	 	   				<input type="submit" class="btn btn-success"  value="submit" name="submit">
    	 	   			</form>
    	 	   		</div>	
    	 		</div>
